@@ -1,3 +1,4 @@
+depends_on: ['interpolation']
 overview: |
   Comment tags represent content that should never appear in the resulting
   output.

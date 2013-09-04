@@ -1,3 +1,4 @@
+depends_on: []
 overview: |
   Interpolation tags are used to integrate dynamic content into the template.
 
@@ -126,19 +127,19 @@ tests:
   - name: Dotted Names - Basic Interpolation
     desc: Dotted names should be considered a form of shorthand for sections.
     data: { person: { name: 'Joe' } }
-    template: '"{{person.name}}" == "{{#person}}{{name}}{{/person}}"'
+    template: '"{{person.name}}" == "Joe"'
     expected: '"Joe" == "Joe"'
 
   - name: Dotted Names - Triple Mustache Interpolation
     desc: Dotted names should be considered a form of shorthand for sections.
     data: { person: { name: 'Joe' } }
-    template: '"{{{person.name}}}" == "{{#person}}{{{name}}}{{/person}}"'
+    template: '"{{{person.name}}}" == "Joe"'
     expected: '"Joe" == "Joe"'
 
   - name: Dotted Names - Ampersand Interpolation
     desc: Dotted names should be considered a form of shorthand for sections.
     data: { person: { name: 'Joe' } }
-    template: '"{{&person.name}}" == "{{#person}}{{&name}}{{/person}}"'
+    template: '"{{&person.name}}" == "Joe"'
     expected: '"Joe" == "Joe"'
 
   - name: Dotted Names - Arbitrary Depth
@@ -162,22 +163,6 @@ tests:
       c: { name: 'Jim' }
     template: '"{{a.b.c.name}}" == ""'
     expected: '"" == ""'
-
-  - name: Dotted Names - Initial Resolution
-    desc: The first part of a dotted name should resolve as any other name.
-    data:
-      a: { b: { c: { d: { e: { name: 'Phil' } } } } }
-      b: { c: { d: { e: { name: 'Wrong' } } } }
-    template: '"{{#a}}{{b.c.d.e.name}}{{/a}}" == "Phil"'
-    expected: '"Phil" == "Phil"'
-
-  - name: Dotted Names - Context Precedence
-    desc: Dotted names should be resolved against former resolutions.
-    data:
-      a: { b: { } }
-      b: { c: 'ERROR' }
-    template: '{{#a}}{{b.c}}{{/a}}'
-    expected: ''
 
   # Whitespace Sensitivity
 

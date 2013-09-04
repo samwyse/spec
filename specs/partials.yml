@@ -1,3 +1,4 @@
+depends_on: ['sections']
 overview: |
   Partial tags are used to expand an external template into the current
   template.

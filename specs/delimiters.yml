@@ -1,3 +1,4 @@
+depends_on: ['interpolation']
 overview: |
   Set Delimiter tags are used to change the tag delimiters for all content
   following the tag in the current compilation unit.

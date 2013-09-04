@@ -1,3 +1,4 @@
+depends_on: ['sections']
 overview: |
   Inverted Section tags and End Section tags are used in combination to wrap a
   section of the template.

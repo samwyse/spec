@@ -1,3 +1,4 @@
+depends_on: ['inverted']
 overview: |
   Lambdas are a special-cased data type for use in interpolations and
   sections.

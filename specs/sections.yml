@@ -139,6 +139,12 @@ tests:
     template: '"{{#list}}Yay lists!{{/list}}"'
     expected: '""'
 
+  - name: Strings Are Not Lists
+    desc: Strings should not be interpreted as list types.
+    data: { section: '1\n2' }
+    template: '"{{#section}}foo{{/section}}"'
+    expected: '"foo"'
+
   - name: Doubled
     desc: Multiple sections per template should be permitted.
     data: { bool: true, two: 'second' }

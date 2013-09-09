@@ -14,6 +14,7 @@ overview: |
   Partial tags SHOULD be treated as standalone when appropriate.  If this tag
   is used standalone, any whitespace preceding the tag should treated as
   indentation, and prepended to each line of the partial before rendering.
+  (A tag is "standalone" when it is the only non-whitespace token on a line.)
 tests:
   - name: Basic Behavior
     desc: The greater-than operator should expand to the named partial.

@@ -25,6 +25,7 @@ overview: |
   interpolation.
 
   The Interpolation tags MUST NOT be treated as standalone.
+  (A tag is "standalone" when it is the only non-whitespace token on a line.)
 tests:
   - name: No Interpolation
     desc: Mustache-free templates should render as-is.

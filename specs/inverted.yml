@@ -33,6 +33,7 @@ overview: |
   This section MUST NOT be rendered unless the data list is empty.
 
   Inverted Section and End Section tags SHOULD be treated as standalone when
+  (A tag is "standalone" when it is the only non-whitespace token on a line.)
   appropriate.
 tests:
   - name: Falsey

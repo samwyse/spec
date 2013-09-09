@@ -8,6 +8,7 @@ overview: |
   delimiter.
 
   Set Delimiter tags SHOULD be treated as standalone when appropriate.
+  (A tag is "standalone" when it is the only non-whitespace token on a line.)
 tests:
   - name: Pair Behavior
     desc: The equals sign (used on both sides) should permit delimiter changes.

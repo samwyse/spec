@@ -35,6 +35,7 @@ overview: |
 
   Section and End Section tags SHOULD be treated as standalone when
   appropriate.
+  (A tag is "standalone" when it is the only non-whitespace token on a line.)
 tests:
   - name: Truthy
     desc: Truthy sections should have their contents rendered.

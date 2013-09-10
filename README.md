@@ -1,5 +1,7 @@
-This is an amended copy of the formal specification of Mustache.  It included
+This is an amended copy of the formal specification of Mustache.  It includes
 several open requests that I consider unlikely to be controversial.
+
+- [My](https://github.com/samwyse) [issue 71](https://github.com/mustache/spec/pull/71) to add partial ordering to the sub-secifications
 
 - [cjerdonek's](https://github.com/cjerdonek) [issue 43](https://github.com/mustache/spec/pull/43) to add a test not to interpret strings as lists
 

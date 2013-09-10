@@ -1,3 +1,12 @@
+This is an amended copy of the formal specification of Mustache.  It included
+several open requests that I consider unlikely to be controversial.
+
+- [cjerdonek's](https://github.com/cjerdonek) [issue 43](https://github.com/mustache/spec/pull/43) to add a test not to interpret strings as lists
+
+- [softprops'](https://github.com/softprops) [issue 63](https://github.com/mustache/spec/issues/65) to clarify what is meant by `standalone`
+
+- [groue's](https://github.com/groue) [issue 62](https://github.com/mustache/spec/issues/62) to clarify the behavior of zero 
+
 The repository at https://github.com/mustache/spec is the formal standard for
 Mustache.  It defines both normal usage and edge-case behavior for libraries
 parsing the Mustache templating language (or a superset thereof).

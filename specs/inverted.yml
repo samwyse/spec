@@ -42,6 +42,36 @@ tests:
     template: '"{{^boolean}}This should be rendered.{{/boolean}}"'
     expected: '"This should be rendered."'
 
+  - name: Empty Strings are Falsey
+    desc: Empty string sections should have their contents rendered.
+    data: { empty_string: '' }
+    template: '"{{#empty_string}}This should not be rendered.{{/empty_string}}"'
+    expected: '""'
+
+  - name: Zero Integers are Falsey
+    desc: Zero integer sections should have their contents rendered.
+    data: { zero_integer: 0 }
+    template: '"{{#zero_integer}}This should not be rendered.{{/zero_integer}}"'
+    expected: '""'
+
+  - name: Zero Decimals are Falsey
+    desc: Zero decimal sections should have their contents rendered.
+    data: { zero_decimal: 0.0 }
+    template: '"{{#zero_decimal}}This should not be rendered.{{/zero_decimal}}"'
+    expected: '""'
+
+  - name: Empty Lists are Falsey
+    desc: Empty list sections should have their contents rendered.
+    data: { empty_list: [] }
+    template: '"{{#empty_list}}This should not be rendered.{{/empty_list}}"'
+    expected: '""'
+
+  - name: Null Values are Falsey
+    desc: Null value sections should have their contents rendered.
+    data: { null_value: Null }
+    template: '"{{#null_value}}This should not be rendered.{{/null_value}}"'
+    expected: '""'
+
   - name: Truthy
     desc: Truthy sections should have their contents omitted.
     data: { boolean: true }

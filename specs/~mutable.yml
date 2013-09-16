@@ -1,0 +1,218 @@
+depends_on: ['partials', 'inverted']
+overview: |
+  Mutable Context Objects (hereafter MCOs) are a special type of object
+  that can appear on the context stack.  They allow templates to define
+  values for interpolation tags.
+  
+  MCO tags SHOULD be treated as standalone when appropriate.
+  (A tag is "standalone" when it is the only non-whitespace token on a line.)
+tests:
+  - name: Standalone
+    desc: Tags specific to MCOs should be treated as standalones.
+    data: { }
+    template: |
+      {{<}}
+      {{$key}}value{{/key}}
+      {{/}}
+    expected: ""
+
+  - name: Interpolation
+    desc: A tag refering to an MCO should be interpolated.
+    data: { }
+    template: |
+      {{<}}
+      {{$hero}}Mahatma Gandhi{{/hero}}
+      {{hero}} is someone I admire.
+      {{/}}
+    expected: "Mahatma Gandhi is someone I admire."
+
+  - name: Overwriting values
+    desc: An MCO tag can be overwritten.
+    data: { }
+    template: |
+      {{<}}
+      {{$hero}}Mother Teresa{{/hero}}
+      {{hero}} is someone I admire.
+      {{$hero}}Harriet Tubman{{/hero}}
+      {{hero}} is someone I admire.
+      {{/}}
+    expected: |
+      Mother Teresa is someone I admire.
+      Harriet Tubman is someone I admire.
+
+  - name: Tags are visible inside partials
+    desc: A tag refering to an MCO should be interpolated.
+    data: { }
+    template: |
+      {{<}}
+      {{$title}}Custom title{{/title}}
+      {{$footing}}That's all, folks!{{/footing}}
+      {{> template }}
+      {{/}}
+    partials:
+      partial: |
+        {{! an example template }}
+        <html><head><title>{{title}}{{^title}}Default title{{/title}}</title></head>
+        <body>
+        {{heading}}
+        Hello, world!
+        {{footing}}
+        </body></html>
+    expected: |
+      <html><head><title>Custom title</title></head>
+      <body>
+      Hello, world!
+      That's all, folks!
+      </body></html>
+
+  - name: Big example
+    desc: A tag refering to an MCO should be interpolated.
+    data: { }
+    template: |
+      {{< partial }}
+      
+      {{$ title }}My Alsome Page{{/ title }}
+      
+      {{$ stylesheets }}
+        <link rel="stylesheet" href="/assets/css/page.css">
+      {{/ stylesheets }}
+      
+      {{$ header }}
+        <h1>My page has some items!</h1>
+      {{/ header }}
+      
+      {{$ content }}
+        <ul>
+          {{# items }}
+            <li><a href="{{ link }}" title="{{ name }}">{{ name }}</a></li>
+          {{/ items }}
+        </ul>
+      {{/ content }}
+      {{/ partial }}
+    partials:
+      partial: |
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>{{ title }}{{^ title }}My Alsome Site{{/ title }}</title>
+            {{ stylesheets }}{{^ stylesheets }}
+              <link rel="stylesheet" href="/assets/css/default.css">
+            {{/ stylesheets }}
+          </head>
+          <body>
+            <header>
+              {{ header }}{{^ header }}
+            <h1>Welcome to My Alsome Site</h1>
+              {{/ header }}
+            </header>
+            <section id="content">
+              {{ content }}{{^ content }}
+            <p>Hello, World!</p>
+              {{/ content }}
+            </section>
+            {{ scripts }}{{^ scripts }}
+              <script src="/assets/js/default.js"></script>
+            {{/ scripts }}
+          </body>
+        </html>
+    expected: |
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>My Alsome Page</title>
+          <link rel="stylesheet" href="/assets/css/page.css">
+        </head>
+        <body>
+          <header>
+            <h1>My page has some items!</h1>
+          </header>
+          <section id="content">
+            <ul>
+              {{# items }}
+                <li><a href="{{ link }}" title="{{ name }}">{{ name }}</a></li>
+              {{/ items }}
+            </ul>
+          </section>
+          <script src="/assets/js/default.js"></script>
+        </body>
+      </html>
+
+  - name: MCOs as templates - Specifying defaults
+    desc: An MCO can be used as a template.
+    data: { }
+    partials:
+      layout: "Content: {{content}}{{^content}}Default{{/content}}"
+    template: |
+      {{<}}
+      {{>layout}}{{/}}
+    expected: "Content: Default"
+
+  - name: MCOs as templates - Overriding Defaults
+    desc: An MCO can be used as a template.
+    data: { }
+    partials:
+      layout: "Content: {{content}}{{^content}}Default{{/content}}"
+    template: |
+      {{<}}
+      {{$content}}Overridden{{/content}}
+      {{>layout}}{{/}}
+    expected: "Content: Overridden"
+
+  - name: MCOs as templates - Multiple Inheritance
+    desc: An MCO can be used as a template.
+    data: { }
+    partials:
+      layout: "Content: {{content}}{{^content}}Default{{/content}}"
+      special: "{{<}}{{$content}}special {{content}}{{/content}}{{>layout}}{{/}}"
+    template: |
+      {{<}}
+      {{$content}}stuff{{/content}}
+      {{>layout}}{{/}}
+    expected: "Content: special stuff"
+
+  - name: MCOs as templates - Concatenation of values
+    desc: An MCO can be used as a template.
+    data: { }
+    partials:
+      layout: "Content: {{content}}{{^content}}Default{{/content}}"
+    template: |
+      {{<}}
+      {{$content}}{{content}}A{{/content}}
+      {{$content}}{{content}}B{{/content}}
+      {{>layout}}{{/}}
+    expected: "Content: AB"
+
+  - name: MCOs as Named HTML Chunks
+    desc: An MCO can be reusable boilerplate.
+    data: { }
+    template: |
+      {{<}}
+      {{$ widgetName }}<div>widget code</div>{{/ widgetName }}
+      {{{ widgetName }}}
+      {{/}}
+    expected: "<div>widget code</div>"
+
+  - name: MCOs as Inline Partials
+    desc: An MCO is scanned twice.  The first time is when it is defined.
+    data: { }
+    template: |
+      {{<}}
+      {{$ man }}Socrates{{/ man }}
+      {{$ proposition }}{{ man }} is mortal{{/ proposition }}
+      {{$ man }}Aristotle{{/ man }}
+      {{ proposition }}
+      {{/}}
+    expected: "Socrates is mortal"
+
+  - name: MCOs as Inline Partials
+    desc: An MCO is scanned twice.  The first time is when it is defined.
+    data: { }
+    template: |
+      {{<}}
+      {{$ man }}Socrates{{/ man }}
+      {{$ proposition }}{{=[[ ]]=}}{{ man }} is mortal[[={{ }}=]]{{/  proposition }}
+      {{$ man }}Aristotle{{/ man }}
+      {{ proposition }}
+      {{/}}
+    expected: "Aristotle is mortal"
+

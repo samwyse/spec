@@ -70,7 +70,7 @@ xref:
 
   - name: '>'
     desc: Expand an external template.
-    section: partial
+    section: partials
 
   - name: '?'
     desc: Not currently in use.

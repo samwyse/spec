@@ -1,0 +1,81 @@
+overview: |
+  This is not a collection of tests.  Rather, it is a cross-reference of the
+  various sigils, showing the section where their proper use is defined and
+  a brief description of what they mean.
+xref:
+  - name: '!'
+    desc: Comment blocks.
+    section: comments
+  - name: '"'
+    desc: Not currently in use.
+  - name: '#'
+    desc: Indicates the start of a section.
+    section: section
+  - name: '$'
+    desc: Non-standard.  Define or Render a value.
+    section: templates
+  - name: '%'
+    desc: Non-standard.  Influence the operation of the rendering engine.
+    section: pragmas
+  - name: '&'
+    desc: Not currently in use.
+  - name: "'"
+    desc: Not currently in use.
+  - name: '('
+    desc: Not currently in use.
+  - name: ')'
+    desc: Not currently in use.
+  - name: '*'
+    desc: Not currently in use.
+  - name: '+'
+    desc: Not currently in use.
+  - name: ','
+    desc: Not currently in use.
+  - name: '-'
+    desc: Not currently in use.
+  - name: '.'
+    desc:  Refers to the object at the top of the context stack.
+    section: interpolation
+  - name: '/'
+    desc: Indicates the end of a section.
+    section: section
+  - name: ':'
+    desc: Not currently in use.
+  - name: ';'
+    desc: Not currently in use.
+  - name: '<'
+    desc: Non-standard.  Define a template.
+    section: templates
+  - name: '='
+    desc: Changes the tag delimiters for subsequent content.
+    section: delimiters
+  - name: '>'
+    desc: Expand an external template.
+    section: partial
+  - name: '?'
+    desc: Not currently in use.
+  - name: '@'
+    desc:  Interpolate without HTML escaping.
+    section: interpolation
+  - name: '['
+    desc: Not currently in use.
+  - name: '\'
+    desc: Not currently in use.
+  - name: ']'
+    desc: Not currently in use.
+  - name: '^'
+    desc: Indicates the start of an inverted section.
+    section: section
+  - name: '_'
+    desc: Not currently in use.
+  - name: '`'
+    desc: Not currently in use.
+  - name: '{'
+    desc:  Interpolate without HTML escaping.
+    section: interpolation
+  - name: '|'
+    desc: Not currently in use.
+  - name: '}'
+    desc: Not currently in use.
+  - name: '~'
+    desc: Not currently in use.

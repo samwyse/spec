@@ -6,76 +6,107 @@ xref:
   - name: '!'
     desc: Comment blocks.
     section: comments
+
   - name: '"'
     desc: Not currently in use.
+
   - name: '#'
     desc: Indicates the start of a section.
     section: sections
+
   - name: '$'
     desc: Non-standard.  Define or Render a value.
     section: ~templates
+
   - name: '%'
     desc: Non-standard.  Influence the operation of the rendering engine.
     section: ~pragmas
+
   - name: '&'
     desc: Not currently in use.
+
   - name: "'"
     desc: Not currently in use.
+
   - name: '('
     desc: Not currently in use.
+
   - name: ')'
     desc: Not currently in use.
+
   - name: '*'
     desc: Not currently in use.
+
   - name: '+'
     desc: Not currently in use.
+
   - name: ','
     desc: Not currently in use.
+
   - name: '-'
     desc: Not currently in use.
+
   - name: '.'
     desc:  Refers to the object at the top of the context stack.
     section: interpolation
+
   - name: '/'
     desc: Indicates the end of a section.
     section: sections
+
   - name: ':'
     desc: Not currently in use.
+
   - name: ';'
     desc: Not currently in use.
+
   - name: '<'
     desc: Non-standard.  Define a template.
     section: ~templates
+
   - name: '='
     desc: Changes the tag delimiters for subsequent content.
     section: delimiters
+
   - name: '>'
     desc: Expand an external template.
     section: partial
+
   - name: '?'
     desc: Not currently in use.
+
   - name: '@'
     desc:  Interpolate without HTML escaping.
     section: interpolation
+
   - name: '['
     desc: Not currently in use.
+
   - name: '\'
     desc: Not currently in use.
+
   - name: ']'
     desc: Not currently in use.
+
   - name: '^'
     desc: Indicates the start of an inverted section.
     section: sections
+
   - name: '_'
     desc: Not currently in use.
+
   - name: '`'
     desc: Not currently in use.
+
   - name: '{'
     desc:  Interpolate without HTML escaping.
     section: interpolation
+
   - name: '|'
     desc: Not currently in use.
+
   - name: '}'
     desc: Not currently in use.
+
   - name: '~'
     desc: Not currently in use.

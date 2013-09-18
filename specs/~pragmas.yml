@@ -16,47 +16,54 @@ overview: |
 tests:
   - name: The Version Pragma
     desc: |
-      The version-string is one or more strings of digits, separated by
+      The tag includes one or more strings of digits, separated by
       periods; for example 1 or 1.0 or 1.0.1.  The first set of digits
       specifies the major release of the spec expected by a template.
+      Subsequent sets of digits specify minor releases, patches, etc.
+      A major release number is required, the rest default to zero.
 
-      If the rendering engine cannot interpret templates according to
-      the specified version of the spec, it SHOULD halt operation.
+      If the rendering engine cannot interpret tags according to the
+      specified major release of the spec, it SHOULD halt operation.
+
+      If the rendering engine cannot interpret tags according to the
+      specified or later minor release or patch level, it SHOULD halt
+      operation.
     data: { }
     template: '{{% version 1}}'
     expected: ''
 
   - name: The Requires Pragma
     desc: |
-      The spec-string is one or more strings of characters, separated by
-      white-space.  Each string indicates a section of the spec that
-      the template expects the rendering engine to support.  Leading
-      '~' characters are not required and are ignored if present; this
-      allows optional portions of the spec to become required in later
-      versions.  Required portions of the spec are allowed, as they may
-      become optional in later versions.
+      The tag includes one or more strings of characters, separated by
+      commas and optional white-space.  Each string indicates a section
+      of the spec that the template expects the rendering engine to
+      support.  Leading '~' characters are not required and are ignored
+      if present; this allows optional portions of the spec to become
+      required in later versions.  Required portions of the spec are
+      allowed, as they may become deprecated in later versions.
 
-      A rendering engine is allowed to define private specs.  These should
-      use only uppercase characters in their name.
+      Official portions of the spec will be named using only lower-case
+      characters.  A rendering engine is allowed to define private specs.
+      These should use only upper-case characters in their name.
 
-      If the rendering engine does not recognize a spec, it SHOULD halt
+      If the rendering engine cannot conform to a spec, it SHOULD halt
       operation.
     data: { }
-    template: '{{% requires sections partials }}'
+    template: '{{% requires sections, partials }}'
     expected: ''
 
   - name: The Warn Pragma
     desc: |
-      The message string should be displayed, if possible, on an out-
-      of-band channel reserved for error messages.
+      The remainder of the tag should be displayed, if possible, on an
+      out-of-band channel reserved for error messages.
     data: { }
     template: '{{% warn *** DRAFT:  DO NOT DISTRIBUTE *** }}'
     expected: ''
 
   - name: The Die Pragma
     desc: |
-      The message string should be displayed, if possible, on an out-
-      of-band channel reserved for error messages.  Next, the rendering
+      The remainder of the tag should be displayed, if possible, on an
+      out-of-band channel reserved for error messages.  Next, the rendering
       engine SHOULD halt operation.
     data: { }
     template: '{{% die Required data is missing or not defined. }}'

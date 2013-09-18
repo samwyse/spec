@@ -68,3 +68,40 @@ tests:
     data: { }
     template: '{{% die Required data is missing or not defined. }}'
     expected: ''
+
+  - name: The Unescaped Pragma
+    desc: |
+      From the occurance of the pragma until the end of the template or
+      any end of the enclosing section, HTML will not be escaped except
+      in triple mustaches or when the '@' sigil is used.
+    data:
+      section: true
+      html: '<&>'
+    template: |
+      {{# section }}
+      {{% unescaped }}
+      {{html}}
+      {{@html}}
+      {{{html}}}
+      {{/ section }}
+      ---
+      {{html}}
+      {{@html}}
+      {{{html}}}
+      ---
+      {{% unescaped }}
+      {{html}}
+      {{@html}}
+      {{{html}}}
+    expected: |
+      <&>
+      &lt;&amp;&gt;
+      &lt;&amp;&gt;
+      ---
+      &lt;&amp;&gt;
+      <&>
+      <&>
+      ---
+      <&>
+      &lt;&amp;&gt;
+      &lt;&amp;&gt;

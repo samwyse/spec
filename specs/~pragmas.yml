@@ -7,12 +7,12 @@ overview: |
   action in the language itself, but rather only a change in the
   behavior of the rendering engine.
 
-  Pragmas are classifies according to the first word in their tag, where
+  Pragmas are classified according to the first word in their tag, where
   a word is defined as any string of non-space characters. This
   specification reserves and will only define pragmas whose first word
-  contains only lowercase characters.  Pragmas whose first word contains
-  only uppercase characters are reserved for particular implementations,
-  while mixed-case first words are reserved for future use.
+  does not contain upper-case characters.  Pragmas whose first word does
+  not contain lower-case characters are reserved for use by individual
+  implementations, while words containing both are reserved for future use.
 tests:
   - name: The Version Pragma
     desc: |

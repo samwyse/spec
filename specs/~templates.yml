@@ -1,4 +1,56 @@
-depends_on: ['interpolation']
+depends_on: [interpolation, partials]
 overview: |
-  This is a placeholder.
+  Templates provide a declarative syntax for defining replaceable blocks,
+  very much akin to the way this is done in Django and some other
+  templating systems.
+
+  Definition Section tags and End Section tags are used in combination to wrap a
+  section of the template.  If the name has not been used previously, the tags
+  name the data enclosed within the tags.
+
+  Replacement Section tags and End Section tags are used in combination to wrap a
+  section of the template.  Within a Replacement Section, Definition Section tags
+  are not rendered, they only define values.  When the End Section tag is processed,
+  a partial of the same name is included.
+
+  These tags' content MUST be a non-whitespace character sequence NOT
+  containing the current closing delimiter; each Replacement Section tag MUST be
+  followed by an End Section tag with the same content within the same
+  section.
+
 tests:
+  - name: An example template
+    desc: A common use case.
+    data:
+      username: John Smith
+    template: |
+      {{<super}}
+      {{$title}}Profile of {{username}} | Twitter{{/title}}
+      {{$content}}
+      Here is {{username}}'s profile page
+      {{/content}}
+      {{/super}}
+    partials:
+      footer: PAGE FOOTING
+      navigation: NAVIGATION BAR
+      super: |
+        <html>
+        <head><title>{{$title}}Default title{{/title}}</title></head>
+        <body>
+        {{>navigation}}
+        <div class="content">
+        {{$content}}Default content of the page{{/content}}
+        </div>
+        {{>footer}}
+        </body>
+        </html>
+    expected: |
+      <html>
+      <head><title>Profile of John Smith | Twitter</title></head>
+      <body>
+      NAVIGATION BAR
+      <div class="content">
+      Here is John Smith's profile page</div>
+      PAGE FOOTING
+      </body>
+      </html>

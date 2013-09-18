@@ -11,31 +11,25 @@ tests:
     desc: Tags specific to MCOs should be treated as standalones.
     data: { }
     template: |
-      {{<}}
-      {{$key}}value{{/key}}
-      {{/}}
+      {{:key}}value{{/key}}
     expected: ""
 
   - name: Interpolation
     desc: A tag refering to an MCO should be interpolated.
     data: { }
     template: |
-      {{<}}
-      {{$hero}}Mahatma Gandhi{{/hero}}
+      {{:hero}}Mahatma Gandhi{{/hero}}
       {{hero}} is someone I admire.
-      {{/}}
     expected: "Mahatma Gandhi is someone I admire."
 
   - name: Overwriting values
     desc: An MCO tag can be overwritten.
     data: { }
     template: |
-      {{<}}
-      {{$hero}}Mother Teresa{{/hero}}
+      {{:hero}}Mother Teresa{{/hero}}
       {{hero}} is someone I admire.
-      {{$hero}}Harriet Tubman{{/hero}}
+      {{:hero}}Harriet Tubman{{/hero}}
       {{hero}} is someone I admire.
-      {{/}}
     expected: |
       Mother Teresa is someone I admire.
       Harriet Tubman is someone I admire.
@@ -44,14 +38,12 @@ tests:
     desc: A tag refering to an MCO should be interpolated.
     data: { }
     template: |
-      {{<}}
-      {{$title}}Custom title{{/title}}
-      {{$footing}}That's all, folks!{{/footing}}
-      {{> template }}
-      {{/}}
+      {{:title}}Custom title{{/title}}
+      {{:footing}}That's all, folks!{{/footing}}
+      {{> template}}
     partials:
       partial: |
-        {{! an example template }}
+        {{! an example template}}
         <html><head><title>{{title}}{{^title}}Default title{{/title}}</title></head>
         <body>
         {{heading}}
@@ -69,50 +61,45 @@ tests:
     desc: A tag refering to an MCO should be interpolated.
     data: { }
     template: |
-      {{< partial }}
-      
-      {{$ title }}My Alsome Page{{/ title }}
-      
-      {{$ stylesheets }}
+      {{:title}}My Alsome Page{{/title}}
+      {{:stylesheets}}
         <link rel="stylesheet" href="/assets/css/page.css">
-      {{/ stylesheets }}
-      
-      {{$ header }}
+      {{/stylesheets}}
+      {{:header}}
         <h1>My page has some items!</h1>
-      {{/ header }}
-      
-      {{$ content }}
+      {{/header}}
+      {{:content}}
         <ul>
-          {{# items }}
-            <li><a href="{{ link }}" title="{{ name }}">{{ name }}</a></li>
-          {{/ items }}
+          {{# items}}
+            <li><a href="{{link}}" title="{{name}}">{{name}}</a></li>
+          {{/items}}
         </ul>
-      {{/ content }}
-      {{/ partial }}
+      {{/content}}
+      {{> partial}}
     partials:
       partial: |
         <!DOCTYPE html>
         <html>
           <head>
-            <title>{{ title }}{{^ title }}My Alsome Site{{/ title }}</title>
-            {{ stylesheets }}{{^ stylesheets }}
+            <title>{{title}}{{^ title}}My Alsome Site{{/title}}</title>
+            {{stylesheets}}{{^ stylesheets}}
               <link rel="stylesheet" href="/assets/css/default.css">
-            {{/ stylesheets }}
+            {{/stylesheets}}
           </head>
           <body>
             <header>
-              {{ header }}{{^ header }}
+              {{header}}{{^ header}}
             <h1>Welcome to My Alsome Site</h1>
-              {{/ header }}
+              {{/header}}
             </header>
             <section id="content">
-              {{ content }}{{^ content }}
+              {{content}}{{^ content}}
             <p>Hello, World!</p>
-              {{/ content }}
+              {{/content}}
             </section>
-            {{ scripts }}{{^ scripts }}
+            {{scripts}}{{^ scripts}}
               <script src="/assets/js/default.js"></script>
-            {{/ scripts }}
+            {{/scripts}}
           </body>
         </html>
     expected: |
@@ -128,9 +115,9 @@ tests:
           </header>
           <section id="content">
             <ul>
-              {{# items }}
-                <li><a href="{{ link }}" title="{{ name }}">{{ name }}</a></li>
-              {{/ items }}
+              {{# items}}
+                <li><a href="{{link}}" title="{{name}}">{{name}}</a></li>
+              {{/items}}
             </ul>
           </section>
           <script src="/assets/js/default.js"></script>
@@ -143,8 +130,7 @@ tests:
     partials:
       layout: "Content: {{content}}{{^content}}Default{{/content}}"
     template: |
-      {{<}}
-      {{>layout}}{{/}}
+      {{>layout}}
     expected: "Content: Default"
 
   - name: MCOs as templates - Overriding Defaults
@@ -153,9 +139,8 @@ tests:
     partials:
       layout: "Content: {{content}}{{^content}}Default{{/content}}"
     template: |
-      {{<}}
-      {{$content}}Overridden{{/content}}
-      {{>layout}}{{/}}
+      {{:content}}Overridden{{/content}}
+      {{>layout}}
     expected: "Content: Overridden"
 
   - name: MCOs as templates - Multiple Inheritance
@@ -163,11 +148,10 @@ tests:
     data: { }
     partials:
       layout: "Content: {{content}}{{^content}}Default{{/content}}"
-      special: "{{<}}{{$content}}special {{content}}{{/content}}{{>layout}}{{/}}"
+      special: "{{:content}}special {{content}}{{/content}}{{>layout}}{{/}}"
     template: |
-      {{<}}
-      {{$content}}stuff{{/content}}
-      {{>layout}}{{/}}
+      {{:content}}stuff{{/content}}
+      {{>layout}}
     expected: "Content: special stuff"
 
   - name: MCOs as templates - Concatenation of values
@@ -176,43 +160,36 @@ tests:
     partials:
       layout: "Content: {{content}}{{^content}}Default{{/content}}"
     template: |
-      {{<}}
-      {{$content}}{{content}}A{{/content}}
-      {{$content}}{{content}}B{{/content}}
-      {{>layout}}{{/}}
+      {{:content}}{{content}}A{{/content}}
+      {{:content}}{{content}}B{{/content}}
+      {{>layout}}
     expected: "Content: AB"
 
   - name: MCOs as Named HTML Chunks
     desc: An MCO can be reusable boilerplate.
     data: { }
     template: |
-      {{<}}
-      {{$ widgetName }}<div>widget code</div>{{/ widgetName }}
-      {{{ widgetName }}}
-      {{/}}
+      {{:widgetName}}<div>widget code</div>{{/widgetName}}
+      {{{widgetName}}}
     expected: "<div>widget code</div>"
 
-  - name: MCOs as Inline Partials
-    desc: An MCO is scanned twice.  The first time is when it is defined.
+  - name: MCOs as Inline Partials -- First Rendering
+    desc: An MCO is rendered twice.  The first time is when it is defined.
     data: { }
     template: |
-      {{<}}
-      {{$ man }}Socrates{{/ man }}
-      {{$ proposition }}{{ man }} is mortal{{/ proposition }}
-      {{$ man }}Aristotle{{/ man }}
-      {{ proposition }}
-      {{/}}
+      {{:man}}Socrates{{/man}}
+      {{:proposition}}{{man}} is mortal{{/proposition}}
+      {{:man}}Aristotle{{/man}}
+      {{proposition}}
     expected: "Socrates is mortal"
 
-  - name: MCOs as Inline Partials
-    desc: An MCO is scanned twice.  The first time is when it is defined.
+  - name: MCOs as Inline Partials -- Second Rendering
+    desc: An MCO is rendered twice.  The second time is when it is used.
     data: { }
     template: |
-      {{<}}
-      {{$ man }}Socrates{{/ man }}
-      {{$ proposition }}{{=[[ ]]=}}{{ man }} is mortal[[={{ }}=]]{{/  proposition }}
-      {{$ man }}Aristotle{{/ man }}
-      {{ proposition }}
-      {{/}}
+      {{:man}}Socrates{{/man}}
+      {{:proposition}}{{=[[ ]]=}}{{man}} is mortal[[={{}}=]]{{/proposition}}
+      {{:man}}Aristotle{{/man}}
+      {{proposition}}
     expected: "Aristotle is mortal"
 

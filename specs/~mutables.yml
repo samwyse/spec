@@ -3,7 +3,7 @@ overview: |
   Mutable Context Objects (hereafter MCOs) are a special type of object
   that can appear on the context stack.  They allow templates to define
   values for interpolation tags.
-  
+
   MCO tags SHOULD be treated as standalone when appropriate.
   (A tag is "standalone" when it is the only non-whitespace token on a line.)
 tests:
@@ -192,4 +192,3 @@ tests:
       {{:man}}Aristotle{{/man}}
       {{proposition}}
     expected: "Aristotle is mortal"
-

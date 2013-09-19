@@ -52,10 +52,11 @@ xref:
 
   - name: '/'
     desc: Indicates the end of a section.
-    section: sections
+    section: [sections, inverted, ~templates]
 
   - name: ':'
-    desc: Not currently in use.
+    desc: Non-standard.  Define a value.
+    section: ~mutables
 
   - name: ';'
     desc: Not currently in use.

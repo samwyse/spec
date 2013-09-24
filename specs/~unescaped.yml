@@ -1,0 +1,126 @@
+depends_on: [pragmas unescaped, partials]
+overview: |
+  Inclusion of the 'unescaped' pragma SHOULD cause HTML to not be escaped,
+  except within triple mustaches or when the '@' sigil is used.
+
+  This does not effect output prior to the use of the pragma.
+
+  This effect MUST only remain in effect until the end of the innermost
+  inclosing partial; if the pragma is used outside of any section, it
+  MUST remain in effect until the end of the innermost enclosing partial;
+  if used in a template, it MUST remain in effect for the remainder of
+  the template.
+tests:
+    name: Simple
+  - desc: Turn off HTML escaping.
+    data:
+      html: '<&>'
+    template: |
+      {{%unescaped}}
+      {{html}}
+    expected: |
+      <&>
+
+  - name: Triple Mustache
+    desc: Escape HTML inside triple mustaches.
+    data:
+      html: '<&>'
+    template: |
+      {{%unescaped}}
+      {{{html}}}
+    expected: |
+      &lt;&amp;&gt;
+
+  - name: Ampersand
+    desc: Escape HTML inside Ampersand tags.
+    data:
+      html: '<&>'
+    template: |
+      {{%unescaped}}
+      {{@html}}
+    expected: |
+      &lt;&amp;&gt;
+
+  - name: Not retroactive
+    desc: This does not effect rendering prior to the use of the pragma.
+    data:
+      html: '<&>'
+    template: |
+      {{html}}
+      {{%unescaped}}
+    expected: |
+      &lt;&amp;&gt;
+
+  - name: Enclosing section
+    desc: |
+      This effect MUST only remain in effect until the end of the innermost
+      inclosing section.
+    data:
+      section: true
+      html: '<&>'
+    template: |
+      {{# section}}
+      {{%unescaped}}
+      {{html}}
+      {{/ section}}
+      {{html}}
+    expected: |
+      <&>
+      &lt;&amp;&gt;
+
+  - name: Innermost enclosing section
+    desc: |
+      This effect MUST only remain in effect until the end of the innermost
+      inclosing section.
+    data:
+      section:
+        nested: true
+      html: '<&>'
+    template: |
+      {{# section}}
+      {{# nested}}
+      {{%unescaped}}
+      {{html}}
+      {{/ nested}}
+      {{html}}
+      {{/ section}}
+    expected: |
+      <&>
+      &lt;&amp;&gt;
+
+  - name: Enclosing partial
+    desc: |
+      This effect MUST only remain in effect until the end of the innermost
+      inclosing partial.
+    partials: |
+      partial: |
+        {{%unescaped}}
+        {{html}}
+    data:
+      html: '<&>'
+    template: |
+      {{>partial}}
+      {{html}}
+    expected: |
+      <&>
+      &lt;&amp;&gt;
+
+  - name: Innermost enclosing partial
+    desc: |
+      This effect MUST only remain in effect until the end of the innermost
+      inclosing partial.
+    partials: |
+      outer: |
+        {{>inner}}
+        {{html}}
+      inner: |
+        {{%unescaped}}
+        {{html}}
+    data:
+      html: '<&>'
+    template: |
+      {{>outer}}
+    expected: |
+      <&>
+      &lt;&amp;&gt;
+

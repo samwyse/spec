@@ -1,0 +1,39 @@
+depends_on: [pragma quotes, 'sigil "', 'sigil /']
+overview: |
+  Quote tags are used in combination to prevent a section of the template
+  from being interpreted.
+
+  These tags' content MUST be a non-whitespace character sequence NOT
+  containing the current closing delimiter; each Quote tag MUST be followed
+  by an End tag with the same content within the same section.
+
+  Quote and End tags SHOULD be treated as standalone when appropriate.
+  (A tag is "standalone" when it is the only non-whitespace token on a line.)
+tests:
+  - name: Simple
+    desc: Quote tags prevent interpretation of mustaches.
+    data: { }
+    template: '{{"foo}}{{mustache}}{{/foo}'
+    expected: '{{mustache}}'
+
+  - name: Standalone Lines
+    desc: Standalone lines should be removed from the template.
+    data: { }
+    template: |
+      {{"foo}}
+      {{mustache}}
+      {{/foo}
+    expected: '{{mustache}}'
+
+  - name: Nested
+    desc: Quote tags prevent the interpretaion of nested quote tags.
+    data: { }
+    template: |
+      {{"bar}}{{"foo}}{{/bar}
+      {{"foo}}{{mustache}}{{/foo}
+      {{"baz}}{{/foo}}{{/baz}
+    expected: |
+      {{"foo}}
+      {{mustache}}
+      {{/foo}
+

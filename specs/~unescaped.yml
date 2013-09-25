@@ -11,8 +11,8 @@ overview: |
   if used in a template, it MUST remain in effect for the remainder of
   the template.
 tests:
-    name: Simple
-  - desc: Turn off HTML escaping.
+  - name: Simple
+    desc: Turn off HTML escaping.
     data:
       html: '<&>'
     template: |
